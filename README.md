@@ -1,2 +1,6 @@
+<small>Primer entrega para el curso de Javascript de Coderhouse.</small>
+
 # PreEntrega1-Clerici
-Modelo de calculadora de rentabilidad inmobiliaria (España)
+
+
+Tematica: calculadora de rentabilidad inmobiliaria (España)
