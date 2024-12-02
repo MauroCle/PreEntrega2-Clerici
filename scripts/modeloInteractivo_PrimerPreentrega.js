@@ -6,9 +6,21 @@ let mortgage;
 let mortgageRate;
 let mortgageMensualRate;
 let commissions;
+let businessModel
+let traditionalRentPrice
+let sellPrice
+
+//utilizadas para el informe final
+let grossReturn
+let netReturn
+let finalPrice
+let taxes
+let cashflow 
+
 
 //Se define el precio de compra
 let price = prompt("¡Hola! ¿Cual es el precio de compra el inmueble?")
+
 while(isNaN(price) || price <= 0) { //memo: isNaN me devuelve true si price no es un numero, falso si si lo es. Como las validaciones con try parse de C#
     
     if(!isNaN(price)) {
@@ -108,16 +120,22 @@ do {
     }
 } while (ITP==-1);
 
+
+//Actualizo price segun el ITP de la comunidad seleccionada
 price = price*(1+ITP)
 alert("El precio de compra + impuestos es: €"+price)
 
-//Se define costo de reforma
+
+//Se define el costo de reforma
 reformation = prompt("¿Cual es el monto estimado a gastar en reformas del inmueble?")
 
 while(isNaN(reformation)) { 
     reformation = prompt("Debe ingresar un valor numerico para el monto estimado a gastar en reformas.")
     console.log("reformation is not a number")
 }
+if(reformation===""){
+    reformation=0}
+
 
 //Se define comissiones (notaria, inmobiliaria, etc) Solo el total por el momento.
 commissions = prompt("¿Cual es el monto de comisiones a pagar por la operación?")
@@ -126,9 +144,11 @@ while(isNaN(commissions)) {
     commissions = prompt("Debe ingresar un valor numerico para el precio de compra del inmueble.")
     console.log("commissions is not a number")
 }
+if(commissions===""){
+    commissions=0}
 
 
-//Se define las caracterisiticas de la hipoteca
+//Se define las caracterisiticas de la hipoteca, aun falta considerar el porcentaje de financiación.
 mortgage = prompt("¿Utilizará hipoteca? Responder con la palabra 'Si' o 'No'")
 
 while(!(mortgage.toLowerCase()=="si") && !(mortgage.toLowerCase()=="no")) {
@@ -173,7 +193,135 @@ if(mortgage)
     mortgageDuration=0
 }
 
+//Se define el tipo de operación a utilizar en los calculos
+businessModel= prompt("Seleccione el tipo de operación:\n" +
+        "1. Alquiler tradicional\n" +
+        "2. Alquiler por habitacion\n" +
+        "3. Reforma y venta\n")
+
+while(isNaN(businessModel) || businessModel <= 0 || businessModel >=4) { 
+
+    if(!isNaN(businessModel)) {
+        businessModel = prompt("Debe ingresar un valor valor mayor entre 1 y 3 para identificar el tipo de operación:\n" +
+                                "1. Alquiler tradicional\n" +
+                                "2. Alquiler por habitacion\n" +
+                                "3. Reforma y venta\n")
+        console.log("businessModel is void or not a number")
+    }else{
+        businessModel = prompt("Debe ingresar un valor mayor entre 1 y 3 para identificar el tipo de operación:\n" +
+                                "1. Alquiler tradicional\n" +
+                                "2. Alquiler por habitacion\n" +
+                                "3. Reforma y venta\n")
+        console.log("businessModel is negative number or 0")
+    }
+}
+
+
+//Dentro de este switch estan los comportamientos segun el tipo de operacion seleccionada en el paso anterior
+switch(businessModel)
+{
+    case "1":
+        //Define el comportamiento por alquiler tradicional
+        traditionalRentPrice = prompt("Ingrese el precio de alquiler:")
+
+        while(isNaN(traditionalRentPrice) || traditionalRentPrice <= 0) { 
+    
+            if(!isNaN(traditionalRentPrice)) {
+                traditionalRentPrice = prompt("Debe ingresar un valor numerico para el precio de alquiler del inmueble.")
+                console.log("price is void or not a number")
+            }else{
+                traditionalRentPrice = prompt("Debe ingresar un precio de alquiler para el inmueble.")
+                console.log("price is negative number or 0")
+            }10000
+        }
+   
+        grossReturn= (traditionalRentPrice*12)/(price+Number(reformation)+Number(commissions)) // memo: Number(variable) le defino que lo que estoy operando es si o si un numero. Sin esto los numeros se me rompen.
+        taxes = (traditionalRentPrice*0.3)
+        netReturn=((traditionalRentPrice - taxes)*12)/(price+Number(reformation)+Number(commissions))
+        finalPrice =(price+Number(reformation)+Number(commissions)) 
+        cashflow =(traditionalRentPrice - taxes)
+
+        console.log({ traditionalRentPrice, price, reformation, commissions})
+
+        alert("Información de la operación:\n"+
+            "Rentabilidad Bruta: "+ grossReturn + " %" +
+            "\nRentabilidad Neta: "+ netReturn + " %" +
+            "\nPrecio final de compra: €"+ finalPrice +
+            "\nAproximación de impuestos a pagar mensual: €"+ taxes +
+            "\nAproximación de cashflow mensual: €"+ cashflow +
+            "\n\n*En esta versión aun no se considera el impacto de la hipoteca en estos numeros." //Pendiente para la pre-entrega 2
+        )
+
+        break;
+
+    case "2":
+        //Define el comportamiento por alquiler por habitaciones
+        traditionalRentPrice = prompt("Ingrese el precio de alquiler de las habitaciones:") 
+        //Demomento utiliza el mismo modelo que el alquiler tradicional
+        //Necesitaria preguntar la cantidad de habitaciones y hacer una lista con sus precios o similar
+
+        while(isNaN(traditionalRentPrice) || traditionalRentPrice <= 0) { 
+    
+            if(!isNaN(traditionalRentPrice)) {
+                traditionalRentPrice = prompt("Debe ingresar un valor numerico para el precio de alquiler del inmueble.")
+                console.log("price is void or not a number")
+            }else{
+                traditionalRentPrice = prompt("Debe ingresar un precio de alquiler para el inmueble.")
+                console.log("price is negative number or 0")
+            }10000
+        }
+        
+        grossReturn= (traditionalRentPrice*12)/(price+Number(reformation)+Number(commissions))
+        taxes = (traditionalRentPrice*0.3) //30% = aproximación a groso modo. En proximas entregas se va a trabajar mas fino en esta parte.
+        netReturn=((traditionalRentPrice - taxes)*12)/(price+Number(reformation)+Number(commissions))
+        finalPrice =(price+Number(reformation)+Number(commissions)) 
+        cashflow =(traditionalRentPrice - taxes)
+        console.log({ traditionalRentPrice, price, reformation, commissions})
+
+        alert("Información de la operación:\n"+
+            "Rentabilidad Bruta: "+ grossReturn + " %" +
+            "\nRentabilidad Neta: "+ netReturn + " %" +
+            "\nPrecio final de compra: €"+ finalPrice +
+            "\nAproximación de impuestos a pagar mensual: €"+ taxes +
+            "\nAproximación de cashflow mensual: €"+ cashflow +
+            "\n\n*En esta primer entrega utiliza el mismo modelo de calculo que el alquiler tradiciona. Necesitaria preguntar la cantidad de habitaciones y hacer una lista con sus precios o similar" //Pendiente para la pre-entrega 2
+        )
+
+        break;
+    case "3":
+        //Define el comportamiento por reforma y venta
+        sellPrice = prompt("Ingrese el precio de venta:") 
+
+        while(isNaN(sellPrice) || sellPrice <= 0) { 
+    
+            if(!isNaN(sellPrice)) {
+                sellPrice = prompt("Debe ingresar un valor numerico para el precio de alquiler del inmueble.")
+                console.log("price is void or not a number")
+            }else{
+                sellPrice = prompt("Debe ingresar un precio de alquiler para el inmueble.")
+                console.log("price is negative number or 0")
+            }10000
+        }
+        
+        grossReturn= (sellPrice)/(price+Number(reformation)+Number(commissions))-1
+        taxes = (sellPrice*0.15) //15% = aproximación a groso modo. En proximas entregas se va a trabajar mas fino en esta parte.
+        netReturn=(sellPrice - taxes)/(price+Number(reformation)+Number(commissions))-1
+        finalPrice =(price+Number(reformation)+Number(commissions)) 
+
+        console.log({ sellPrice, price, reformation, commissions})
+
+        alert("Información de la operación:\n"+
+            "Rentabilidad Bruta: "+ grossReturn + " %" +
+            "\nRentabilidad Neta: "+ netReturn + " %" +
+            "\nPrecio final de compra: €"+ finalPrice +
+            "\nAproximación de impuestos a pagar: €"+ taxes +
+            "\n\n*En esta primer entrega el calculo es a groso modo. Una vez que pueda trabajar bien con la hipoteca esto tendria mas sentido" //Pendiente para la pre-entrega 2
+        )
+
+        break;
+    default:
+        console.log("businessModel not valid.");
+}
 
 alert("Hasta aca llega la primer entrega.. Me falta algunos conocimiento del uso de formulas matematicas en javascript para poder hacer los calculos de hipotecas")
-alert("Creo que con lo que vamos a ir viendo en las clases que vienen me va a resultar mas facil y comodo desarrollar el resto de la app")
 alert("Voy a dejar en el README del proyecto el alcance que tengo previsto!")
