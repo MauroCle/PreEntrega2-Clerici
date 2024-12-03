@@ -244,11 +244,11 @@ switch(businessModel)
         console.log({ traditionalRentPrice, price, reformation, commissions})
 
         alert("Información de la operación:\n"+
-            "Rentabilidad Bruta: "+ grossReturn + " %" +
-            "\nRentabilidad Neta: "+ netReturn + " %" +
-            "\nPrecio final de compra: €"+ finalPrice +
-            "\nAproximación de impuestos a pagar mensual: €"+ taxes +
-            "\nAproximación de cashflow mensual: €"+ cashflow +
+            "Rentabilidad Bruta: "+ (grossReturn*100).toFixed(2) + " %" +
+            "\nRentabilidad Neta: "+ (netReturn*100).toFixed(2) + " %" +
+            "\nPrecio final de compra: €"+ finalPrice.toFixed(2) +
+            "\nAproximación de impuestos a pagar mensual: €"+ taxes.toFixed(2) +
+            "\nAproximación de cashflow mensual: €"+ cashflow.toFixed(2) +
             "\n\n*En esta versión aun no se considera el impacto de la hipoteca en estos numeros." //Pendiente para la pre-entrega 2
         )
 
@@ -279,11 +279,11 @@ switch(businessModel)
         console.log({ traditionalRentPrice, price, reformation, commissions})
 
         alert("Información de la operación:\n"+
-            "Rentabilidad Bruta: "+ grossReturn + " %" +
-            "\nRentabilidad Neta: "+ netReturn + " %" +
-            "\nPrecio final de compra: €"+ finalPrice +
-            "\nAproximación de impuestos a pagar mensual: €"+ taxes +
-            "\nAproximación de cashflow mensual: €"+ cashflow +
+            "Rentabilidad Bruta: "+ (grossReturn*100).toFixed(2)  + " %" +
+            "\nRentabilidad Neta: "+ (netReturn*100).toFixed(2)  + " %" +
+            "\nPrecio final de compra: €"+ finalPrice.toFixed(2) +
+            "\nAproximación de impuestos a pagar mensual: €"+ taxes.toFixed(2) +
+            "\nAproximación de cashflow mensual: €"+ cashflow.toFixed(2) +
             "\n\n*En esta primer entrega utiliza el mismo modelo de calculo que el alquiler tradiciona. Necesitaria preguntar la cantidad de habitaciones y hacer una lista con sus precios o similar" //Pendiente para la pre-entrega 2
         )
 
@@ -311,10 +311,10 @@ switch(businessModel)
         console.log({ sellPrice, price, reformation, commissions})
 
         alert("Información de la operación:\n"+
-            "Rentabilidad Bruta: "+ grossReturn + " %" +
-            "\nRentabilidad Neta: "+ netReturn + " %" +
-            "\nPrecio final de compra: €"+ finalPrice +
-            "\nAproximación de impuestos a pagar: €"+ taxes +
+            "Rentabilidad Bruta: "+ (grossReturn*100).toFixed(2) + " %" +
+            "\nRentabilidad Neta: "+ (netReturn*100).toFixed(2)  + " %" +
+            "\nPrecio final de compra: €"+ finalPrice.toFixed(2)  +
+            "\nAproximación de impuestos a pagar: €"+ taxes.toFixed(2)  +
             "\n\n*En esta primer entrega el calculo es a groso modo. Una vez que pueda trabajar bien con la hipoteca esto tendria mas sentido" //Pendiente para la pre-entrega 2
         )
 
