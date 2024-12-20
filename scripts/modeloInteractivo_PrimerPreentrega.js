@@ -234,64 +234,66 @@ class Operation{
     }
 
     generateReportData(){
-        let grossReturn
-        let netReturn
-        let taxes
-        let finalPrice
-        let cashflow
+        //let grossReturn, netReturn, taxes, finalPrice, cashflow, businessModel = this.businessModel;
+
+        let result = [];
 
         switch(this.businessModel){
             case 1:
-                //Define el comportamiento por alquiler tradicional
-                grossReturn= (this.traditionalRentPrice*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions)) // memo: Number(variable) le defino que lo que estoy operando es si o si un numero. Sin esto los numeros se me rompen.
-                taxes = (this.traditionalRentPrice*0.3) //30% = aproximación a groso modo. En proximas entregas se va a trabajar mas fino en esta parte.
-                netReturn=((this.traditionalRentPrice - taxes)*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))
-                finalPrice =((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions)) 
-                cashflow =(this.traditionalRentPrice - taxes)
-
-                console.log(this.traditionalRentPrice*12)
-                console.log(this.price*(1+this.communityITP))
-                console.log(Number(this.reformationPrice))
-                console.log(Number(this.commissions))
+                result = this.generateReportDataTraditional();
             break;
 
             case 2:
-                const roomPricesSum = this.roomsPrices.reduce((total,price) => Number(total)+Number(price),0)
-                console.log(roomPricesSum)
-                grossReturn= (roomPricesSum*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))
-                taxes = (roomPricesSum*0.3) //30% = aproximación a groso modo. En proximas entregas se va a trabajar mas fino en esta parte.
-                netReturn=((roomPricesSum - taxes)*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))
-                finalPrice =((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions)) 
-                cashflow =(roomPricesSum - taxes)
+                result= this.generateReportDataRooms();
+            break;
 
-                break;
-            case 3:
-                
-                
-                grossReturn= (this.sellPrice)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))-1
-                taxes = (this.sellPrice*0.15) //15% = aproximación a groso modo. En proximas entregas se va a trabajar mas fino en esta parte.
-                netReturn=(this.sellPrice - taxes)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))-1
-                finalPrice =((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions)) 
+            case 3:   
+                result= this.generateReportDataSell();
+            break;
 
-                break;
             default:
                 console.log("businessModel not valid.");
         }
 
-        const result = {
-            grossReturn: grossReturn,
-            netReturn: netReturn,
-            taxes: taxes,
-            finalPrice: finalPrice,
-            cashflow: cashflow,
-            businessModel: this.businessModel
-        };
-        
         console.log("Resultado del cálculo:", result);
         
         return result;
     }
 
+    generateReportDataRooms(){
+        const roomPricesSum = this.roomsPrices.reduce((total,price) => Number(total)+Number(price),0)
+        console.log(roomPricesSum)
+        let grossReturn= (roomPricesSum*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))
+        let taxes = (roomPricesSum*0.3) //30% = aproximación a groso modo. En proximas entregas se va a trabajar mas fino en esta parte.
+        let netReturn=((roomPricesSum - taxes)*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))
+        let finalPrice =((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions)) 
+        let cashflow =(roomPricesSum - taxes)
+
+        return [grossReturn,netReturn,taxes,finalPrice,cashflow, this.businessModel]
+    }
+
+    generateReportDataTraditional(){
+        let grossReturn= (this.traditionalRentPrice*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions)) // memo: Number(variable) le defino que lo que estoy operando es si o si un numero. Sin esto los numeros se me rompen.
+        let taxes = (this.traditionalRentPrice*0.3) //30% = aproximación a groso modo. En proximas entregas se va a trabajar mas fino en esta parte.
+        let netReturn=((this.traditionalRentPrice - taxes)*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))
+        let finalPrice =((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions)) 
+        let cashflow =(this.traditionalRentPrice - taxes)
+
+        return [grossReturn,netReturn,taxes,finalPrice,cashflow, this.businessModel]
+    }
+    generateReportDataSell(){
+        let grossReturn= (this.sellPrice)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))-1
+        let taxes = (this.sellPrice*0.15) //15% = aproximación a groso modo. En proximas entregas se va a trabajar mas fino en esta parte.
+        let netReturn=(this.sellPrice - taxes)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))-1
+        let finalPrice =((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions)).toFixed(2)
+
+        return [grossReturn,netReturn,taxes,finalPrice,0, this.businessModel]
+    }
+
+    getTotalCost(){
+        let result = this.price*(1+this.communityITP)+this.reformationPrice+this.commissions
+        return result
+    }
     
 }
 
@@ -300,11 +302,28 @@ class Mortgage{
         this.basePrice= basePrice,
         this.rate= rate,
         this.duration= duration
-        this.mensualRate = this.DefineMensualRate(rate)
+        this.mensualRate = mensualRate
     }
 
     DefineMensualRate(rate){
         this.mensualRate = rate/12
+    }
+    
+    DefineTotalCost() {
+        // Q total de pagos
+        let paymentsQuantity = this.duration * 12;
+
+        //Calculamos la tasa mensual en formato 0.01 = 1%
+        let mensualRate = this.mensualRate/100
+
+        // calculo del pago mensual nominal
+        let mensualPaymentAmount = this.basePrice * (mensualRate * Math.pow(1 + mensualRate, paymentsQuantity))/
+                                            (Math.pow(1 + mensualRate, paymentsQuantity) - 1);
+    
+        
+        let totalCost = mensualPaymentAmount * paymentsQuantity;
+    
+        return totalCost.toFixed(2); 
     }
 
     setDuration(){
@@ -410,6 +429,9 @@ if(mortgage.toLowerCase()=="si")
 
 if(mortgage)
 {
+    //Se define el monto a cobrir por la hipoteca. //TODO: Hay que desarrollar la opción de poner un porcentaje o monto y no el total.
+    operationMortgage.basePrice = operation.price
+
     //Se define la duración
     operationMortgage.setDuration()
 
@@ -418,6 +440,10 @@ if(mortgage)
 
     //Creo la relación entre el objeto de la hipoteca y la operación
     operation.mortgage = operationMortgage
+
+    console.log(mortgage.DefineTotalCost)
+    console.log(operationMortgage)
+    console.log(operation.mortgage)
 }
 else{
 
@@ -434,7 +460,9 @@ operation.setRentPrice(operation.businessModel);
 
 //Genero los datos data del reporte y lo guardo en una variable para desestructurarlos. Por ultimo muestro el reporte
 let reportData = operation.generateReportData();
-report.getReport(reportData.grossReturn, reportData.netReturn, reportData.taxes, reportData.finalPrice, reportData.cashflow, reportData.businessModel);
+
+console.log(reportData)
+report.getReport(reportData[0], reportData[1], reportData[2], reportData[3], reportData[4], reportData[5]);
 
 alert("Hasta aca llega la segunda entrega.. Me falta algunos conocimiento del uso de formulas matematicas en javascript para poder hacer los calculos de hipotecas")
 alert("Voy a dejar en el README del proyecto el alcance que tengo previsto!")
