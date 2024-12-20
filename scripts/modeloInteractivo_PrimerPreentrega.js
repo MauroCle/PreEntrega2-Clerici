@@ -31,112 +31,53 @@ class Operation{
 
 //TODO: Convertir esto en una array const y recorrerlo en el prompt
     setCommunity(){
+
+        const communities = [
+            [1, "Andalucía", 0.08],
+            [2, "Aragón", 0.08],
+            [3, "Asturias", 0.08],
+            [4, "Baleares", 0.08],
+            [5, "Canarias", 0.065],
+            [6, "Cantabria", 0.10],
+            [7, "Castilla - La Mancha", 0.09],
+            [8, "Castilla León", 0.08],
+            [9, "Cataluña", 0.10],
+            [10, "Ceuta", 0.06],
+            [11, "Comunidad de Madrid", 0.06],
+            [12, "Comunidad Valenciana", 0.10],
+            [13, "Extremadura", 0.08],
+            [14, "Galicia", 0.10],
+            [15, "La Rioja", 0.07],
+            [16, "Melilla", 0.06],
+            [17, "Murcia", 0.08],
+            [18, "Navarra", 0.06],
+            [19, "País Vasco", 0.04]
+        ];
+    
+        let selectedCommunity;
         do {
-            let community = prompt("Seleccione la comunidad autónoma del inmueble:\n" +
-                "1. Andalucía - ITP 8.0%\n" +
-                "2. Aragón - ITP 8.0%\n" +
-                "3. Asturias - ITP 8.0%\n" +
-                "4. Baleares - ITP 8.0%\n" +
-                "5. Canarias - ITP 6.5%\n" +
-                "6. Cantabria - ITP 10.0%\n" +
-                "7. Castilla - La Mancha - ITP 9.0%\n" +
-                "8. Castilla León - ITP 8.0%\n" +
-                "9. Cataluña - ITP 10.0%\n" +
-                "10. Ceuta - ITP 6.0%\n" +
-                "11. Comunidad de Madrid - ITP 6.0%\n" +
-                "12. Comunidad Valenciana - ITP 10.0%\n" +
-                "13. Extremadura - ITP 8.0%\n" +
-                "14. Galicia - ITP 10.0%\n" +
-                "15. La Rioja - ITP 7.0%\n" +
-                "16. Melilla - ITP 6.0%\n" +
-                "17. Murcia - ITP 8.0%\n" +
-                "18. Navarra - ITP 6.0%\n" +
-                "19. Pais Vasco - ITP 4.0%")
+            //Muestra la lista de comunidades al usuario
+            const userSelection = prompt(
+                "Seleccione la comunidad autónoma del inmueble:\n" +
+                communities.map(([id, name, itp]) => `${id}. ${name} - ITP ${(itp * 100).toFixed(2)}%`).join("\n")
+            );
+    
+            // Buscar el valor ingresado  por el usuario en la lista de comunidades
+            selectedCommunity = communities.find(([id]) => id === parseInt(userSelection));
         
-            switch (community) {
-                    case "1":
-                        this.community= "Andalucia"
-                        this.setITP(0.08); 
-                        break;
-                    case "2":
-                        this.community= "Aragon"
-                        this.setITP(0.08); 
-                        break;
-                    case "3":
-                        this.community= "Asturias"
-                        this.setITP(0.08); 
-                        break;
-                    case "4":
-                        this.community= "Baleares"
-                        this.setITP(0.08); 
-                        break;
-                    case "5":
-                        this.community= "Canarias"
-                        this.setITP(0.065); 
-                        break;
-                    case "6":
-                        this.community= "Cantabria"
-                        this.setITP(0.10); 
-                        break;
-                    case "7":
-                        this.community= "Castilla - La Mancha"
-                        this.setITP(0.09); 
-                        break;
-                    case "8":
-                        this.community= "Castilla Leon"
-                        this.setITP(0.08); 
-                        break;
-                    case "9":
-                        this.community= "Catalunia"
-                        this.setITP(0.10); 
-                        break;
-                    case "10":
-                        this.community= "Ceuta"
-                        this.setITP(0.06); 
-                        break;
-                    case "11":
-                        this.community= "Comunidad de Madrid"
-                        this.setITP(0.06); 
-                        break;
-                    case "12":
-                        this.community= "Comunidad Valenciana"
-                        this.setITP(0.10); 
-                        break;
-                    case "13":
-                        this.community= "Extremadura"
-                        this.setITP(0.08); 
-                        break;
-                    case "14":
-                        this.community= "Galicia"
-                        this.setITP(0.10); 
-                        break;
-                    case "15":
-                        this.community= "La Rioja"
-                        this.setITP(0.07); 
-                        break;
-                    case "16":
-                        this.community= "Melilla"
-                        this.setITP(0.06); 
-                        break;
-                    case "17":
-                        this.community= "Murcia"
-                        this.setITP(0.08); 
-                        break;
-                    case "18":
-                        this.community= "Navarra"
-                        this.setITP(0.06); 
-                        break;
-                    case "19":
-                        this.community= "Pais Vasco"
-                        this.setITP(0.04); 
-                        break;
-                default:
-                    community = -1; 
-                    alert("Opción no válida.");
+            if (!selectedCommunity) { // Si no lo encuentra entra en este if
+                alert("Opción no válida. Por favor, elija un número de la lista.");
             }
-        } while (community==-1);
-        
-        
+        } while (!selectedCommunity);
+    
+        // Asignar los valores finales al objeto operation
+        const [id, name, itp] = selectedCommunity;
+        this.community = name;
+        this.setITP(itp);
+    
+        console.log("selected community: "+name+" ITP:"+itp)
+        alert(`Comunidad seleccionada: ${this.community}, ITP: ${itp * 100}%`);
+
     }
 
     setITP(itp){
@@ -178,36 +119,39 @@ class Operation{
     }
 
 //TODO: Convertir esto en una array const y recorrerlo en el prompt
-    setBusinessModel(){    
-        //Se define el tipo de operación a utilizar en los calculos
-        let businessModel= prompt("Seleccione el tipo de operación:\n" +
-            "1. Alquiler tradicional\n" +
-            "2. Alquiler por habitacion\n" +
-            "3. Reforma y venta\n")
+    setBusinessModel() {    
+        
+        const businessModels = [
+            [1, "Alquiler tradicional"],
+            [2, "Alquiler por habitación"],
+            [3, "Reforma y venta"]
+        ];
 
-        while(isNaN(businessModel) || businessModel <= 0 || businessModel >=4) { 
+        //Arma el mensaje para mostrar la lista de modelos de inversión al usuario
+        let message = "Seleccione el tipo de operación:\n"+
+        businessModels.map(([id, description]) => `${id}. ${description}`).join("\n")
 
-            if(!isNaN(businessModel)) {
-                businessModel = prompt("Debe ingresar un valor valor mayor entre 1 y 3 para identificar el tipo de operación:\n" +
-                                        "1. Alquiler tradicional\n" +
-                                        "2. Alquiler por habitacion\n" +
-                                        "3. Reforma y venta\n")
-                console.log("businessModel is void or not a number")
-            }else{
-                businessModel = prompt("Debe ingresar un valor mayor entre 1 y 3 para identificar el tipo de operación:\n" +
-                                        "1. Alquiler tradicional\n" +
-                                        "2. Alquiler por habitacion\n" +
-                                        "3. Reforma y venta\n")
-                console.log("businessModel is negative number or 0")
-            }
+        // Muestra la lista
+        let businessModel = prompt(message);
+
+        // Valida que sea un numero mayor a cero y menor al meximo de la lista
+        while (isNaN(businessModel) || businessModel <= 0 || businessModel > businessModels.length) { 
+            console.log("Entrada no válida");
+            businessModel = prompt(`Debe ingresar un valor entre 1 y ${businessModels.length}:\n` + message)
         }
-        this.businessModel=businessModel
+
+        // Asignar el modelo de negocio seleccionado
+        const [id,] = businessModels.find(([id]) => id === parseInt(businessModel, 10))
+        this.businessModel = id 
+
+        console.log(`Selected businessModel: ${id}`);
     }
+
 
     setRentPrice(bussinessModel){
 
         switch(bussinessModel){
-            case "1":
+            case 1:
                 //Define el valor del alquiler tradicional
                 let traditionalRentPrice = prompt("Ingrese el precio de alquiler:")
 
@@ -224,7 +168,7 @@ class Operation{
                 this.traditionalRentPrice=traditionalRentPrice
                 break;
             
-            case "2":
+            case 2:
                 //Define el comportamiento del alquiler por habitaciones
                 const roomsPrices = []
 
@@ -247,14 +191,16 @@ class Operation{
                     let auxRoomPrice =  prompt("Ingrese el precio de la habitacion N°"+(index+1))
 
                     //Verifica que el precio sea valido
-                    if(!isNaN(auxRoomPrice)) {
-                        auxRoomPrice = prompt("Debe ingresar un valor numerico para el precio de la habitacion N°" + (index+1) +".")
-                        console.log("roomsQuantity is void or not a number")
-                    }else{
-                        auxRoomPrice = prompt("Debe ingresar un valor numerico para el precio de la habitacion N°" + (index+1) +".")
-                        console.log("roomsQuantity is negative number or 0")
+                    while(isNaN(auxRoomPrice) || auxRoomPrice <= 0) { 
+                        
+                        if(!isNaN(auxRoomPrice)) {
+                            auxRoomPrice = prompt("Debe ingresar un valor numerico mayor a 0 para el precio de la habitacion N°" + (index+1) +".")
+                            console.log("roomsQuantity is void or not a number")
+                        }else{
+                            auxRoomPrice = prompt("Debe ingresar un valor numerico para el precio de la habitacion N°" + (index+1) +".")
+                            console.log("roomsQuantity is negative number or 0")
+                        }
                     }
-
                     //Agrega el precio valido a la lista de precios
                     roomsPrices.push(auxRoomPrice)
                     console.log(roomsPrices)
@@ -264,7 +210,7 @@ class Operation{
                 this.roomsPrices = roomsPrices
                 break;
                 
-            case "3":
+            case 3:
                 //Define el comportamiento por reforma y venta
                 let sellPrice = prompt("Ingrese el precio de venta:") 
 
@@ -283,7 +229,7 @@ class Operation{
 
             default:
                 alert("Modelo de negocio no reconocido")
-                console.log("businessModel not valid.");
+                console.log(`businessModel not valid. Value:${bussinessModel}`);
             }
     }
 
@@ -295,24 +241,31 @@ class Operation{
         let cashflow
 
         switch(this.businessModel){
-            case "1":
+            case 1:
                 //Define el comportamiento por alquiler tradicional
                 grossReturn= (this.traditionalRentPrice*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions)) // memo: Number(variable) le defino que lo que estoy operando es si o si un numero. Sin esto los numeros se me rompen.
-                taxes = (this.traditionalRentPrice*0.3)
+                taxes = (this.traditionalRentPrice*0.3) //30% = aproximación a groso modo. En proximas entregas se va a trabajar mas fino en esta parte.
                 netReturn=((this.traditionalRentPrice - taxes)*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))
                 finalPrice =((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions)) 
                 cashflow =(this.traditionalRentPrice - taxes)
+
+                console.log(this.traditionalRentPrice*12)
+                console.log(this.price*(1+this.communityITP))
+                console.log(Number(this.reformationPrice))
+                console.log(Number(this.commissions))
             break;
 
-            case "2":
-                grossReturn= (this.traditionalRentPrice*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))
-                taxes = (this.traditionalRentPrice*0.3) //30% = aproximación a groso modo. En proximas entregas se va a trabajar mas fino en esta parte.
-                netReturn=((this.traditionalRentPrice - taxes)*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))
-                finalPrice =(price+Number(this.reformationPrice)+Number(this.commissions)) 
-                cashflow =(this.traditionalRentPrice - taxes)
+            case 2:
+                const roomPricesSum = this.roomsPrices.reduce((total,price) => Number(total)+Number(price),0)
+                console.log(roomPricesSum)
+                grossReturn= (roomPricesSum*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))
+                taxes = (roomPricesSum*0.3) //30% = aproximación a groso modo. En proximas entregas se va a trabajar mas fino en esta parte.
+                netReturn=((roomPricesSum - taxes)*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))
+                finalPrice =((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions)) 
+                cashflow =(roomPricesSum - taxes)
 
                 break;
-            case "3":
+            case 3:
                 
                 
                 grossReturn= (this.sellPrice)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))-1
@@ -324,7 +277,8 @@ class Operation{
             default:
                 console.log("businessModel not valid.");
         }
-        return {
+
+        const result = {
             grossReturn: grossReturn,
             netReturn: netReturn,
             taxes: taxes,
@@ -332,11 +286,14 @@ class Operation{
             cashflow: cashflow,
             businessModel: this.businessModel
         };
+        
+        console.log("Resultado del cálculo:", result);
+        
+        return result;
     }
 
     
 }
-
 
 class Mortgage{
     constructor(basePrice,rate,duration,mensualRate) {
@@ -396,39 +353,25 @@ class ResultsReport{
             "Rentabilidad Bruta: "+ (grossReturn*100).toFixed(2)  + " %" +
             "\nRentabilidad Neta: "+ (netReturn*100).toFixed(2)  + " %" +
             "\nPrecio final de compra: €"+Number(finalPrice).toFixed(2) +
-            "\nAproximación de impuestos a pagar mensual: €"+ Number(taxes).toFixed(2)
-        if(bussinessModel != 3)
-            alertMessage += "\nAproximación de cashflow mensual: €"+ Number(cashflow).toFixed(2)
+            (2)
+        if(bussinessModel != 3){
+            alertMessage += "\nAproximación de cashflow mensual: €"+ Number(cashflow).toFixed(2) +
+                            "\nAproximación de impuestos a pagar mensual: €"+ Number(taxes).toFixed(2)
+        }else{
+            alertMessage += "\nAproximación de impuestos a pagar: €"+ Number(taxes).toFixed(2)
+        }
 
         alert(alertMessage)
     }
 }
+ 
 
-
-let community;
-let ITP;
-let reformation;
-let mortgageDuration;
-//let mortgage;
-let mortgageRate;
-//let mortgageMensualRate;
-let commissions;
-let businessModel
-let traditionalRentPrice
-let sellPrice
-
-//utilizadas para el informe final
-let grossReturn
-let netReturn
-let finalPrice
-let taxes
-let cashflow 
 
 //Se crea el objeto reporte
-let report = new ResultsReport()
+const report = new ResultsReport()
 
 //Se crea el objeto de la operación y se relaciona con el reporte
-let operation = new Operation()
+const operation = new Operation()
 
 report.operation = operation
 
@@ -450,7 +393,7 @@ operation.setCommissions()
 console.log(operation);
 
 //Se define el objeto de la hipoteca que luego se enviará a la operación
-let operationMortgage = new Mortgage()
+const operationMortgage = new Mortgage()
 //Se define las caracterisiticas de la hipoteca, aun falta considerar el porcentaje de financiación.
 let mortgage = prompt("¿Utilizará hipoteca? Responder con la palabra 'Si' o 'No'")
 
@@ -489,6 +432,7 @@ operation.setBusinessModel();
 //Defino los precios segun el modelo de inversión
 operation.setRentPrice(operation.businessModel);
 
+//Genero los datos data del reporte y lo guardo en una variable para desestructurarlos. Por ultimo muestro el reporte
 let reportData = operation.generateReportData();
 report.getReport(reportData.grossReturn, reportData.netReturn, reportData.taxes, reportData.finalPrice, reportData.cashflow, reportData.businessModel);
 
