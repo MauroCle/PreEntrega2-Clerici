@@ -5,18 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Primer Preentrega</title>
     <link rel="stylesheet" href="./styles/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
     <h1>Simulador de rentabilidad de inmuebles</h1>
     <h3>Primer pre-entrega</h3>
-    <p>Para esta primer pre-entrega unicamente se está presentando una interacción con el usuario por medio de prompt, validacion de datos ingresados con if/else y ciclos usando while, dowhile acompañados de switch, tambien se informa al usuario por medio de alert a modo de retroalimentación.</p>
-    <br>
-    <p>La forma final del proyecto será una calculadora de rendimiento funcional tanto para compra para alquiler como para compra, reforma y venta. Todo esto teniendo en cuenta los impuestos y costos reales como los KPI de este tipo de inversiones</p>
-    <br>
-    <p>Por las vueltas de la vida, hace algo de un año me interesé por este mundito y de a poco fui armando un simulador en excel, que a medida que iba funciones e información que considero relevante fue formando un pequeño caos. <strong>Mi objetivo con el proyecto será llegar a algo mas comodo de vista al usuario y "prolijo".</strong></p>
-    <br>
-    <p>Revisar README para mas info</strong></p>
     
+        <div class="container mt-5">
+            <div class="row">
+                <!-- Columna izquierda -->
+                <div class="col-md-6 border-end">
+                    <form id="main-form">
+                        <div class="mb-3">
+                            <label for="input1" class="form-label">Precio de compra</label>
+                            <input type="text" class="form-control" id="input1" placeholder="Ingrese texto">
+                        </div>
+                        <div class="mb-3">
+                            <label for="selector" class="form-label">Comunidad Autonoma</label>
+                            <select class="form-select" id="selector">
+                                <option value="opcion1">Opción 1</option>
+                                <option value="opcion2">Opción 2</option>
+                                <option value="opcion3">Opción 3</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="input2" class="form-label">Gastos de reforma</label>
+                            <input type="text" class="form-control" id="input2" placeholder="Ingrese texto">
+                        </div>
+                        <div class="mb-3">
+                            <label for="input3" class="form-label">Gastos de gestoria</label>
+                            <input type="text" class="form-control" id="input3" placeholder="Ingrese texto">
+                        </div>
+                        <button type="button" class="btn btn-success" id="execute-btn">Ejecutar</button>
+                        <button type="reset" class="btn btn-danger" id="clear-btn">Limpiar</button>
+                    </form>
+                </div>
+                
+                <!-- Columna derecha -->
+                <div class="col-md-6">
+                    <form>
+                        <div class="mb-3">
+                            <label for="range1" class="form-label">Monto a financiar</label>
+                            <div class="d-flex align-items-center">
+                                <input type="range" class="form-range me-2" id="range1">
+                                <span>Monto</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="range2" class="form-label">Porcentaje a financiar</label>
+                            <div class="d-flex align-items-center">
+                                <input type="range" class="form-range me-2" id="range2">
+                                <span>Porcentaje</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="extra1" class="form-label">Tasa de interes anual</label>
+                            <input type="text" class="form-control" id="extra1" placeholder="Ingrese texto">
+                        </div>
+                        <div class="mb-3">
+                            <label for="selector" class="form-label">Modelo de inverisón</label>
+                            <select class="form-select" id="selector">
+                                <option value="opcion1">Opción 1</option>
+                                <option value="opcion2">Opción 2</option>
+                                <option value="opcion3">Opción 3</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     <script src="./scripts/modeloInteractivo_PrimerPreentrega.js"></script>
 </body>
 </html>

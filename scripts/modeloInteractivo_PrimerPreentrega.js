@@ -463,6 +463,3 @@ let reportData = operation.generateReportData();
 
 console.log(reportData)
 report.getReport(reportData[0], reportData[1], reportData[2], reportData[3], reportData[4], reportData[5]);
-
-alert("Hasta aca llega la segunda entrega.. Me falta algunos conocimiento del uso de formulas matematicas en javascript para poder hacer los calculos de hipotecas")
-alert("Voy a dejar en el README del proyecto el alcance que tengo previsto!")
