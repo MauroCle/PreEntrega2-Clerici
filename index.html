@@ -19,11 +19,11 @@
                     <form id="main-form">
                         <div class="mb-3">
                             <label for="input1" class="form-label">Precio de compra</label>
-                            <input type="text" class="form-control" id="input1" placeholder="Ingrese texto">
+                            <input type="text" class="form-control" id="buyPrice" placeholder="Ingrese texto">
                         </div>
                         <div class="mb-3">
                             <label for="selector" class="form-label">Comunidad Autonoma</label>
-                            <select class="form-select" id="selector">
+                            <select class="form-select" id="communities">
                                 <option value="opcion1">Opción 1</option>
                                 <option value="opcion2">Opción 2</option>
                                 <option value="opcion3">Opción 3</option>
@@ -31,50 +31,47 @@
                         </div>
                         <div class="mb-3">
                             <label for="input2" class="form-label">Gastos de reforma</label>
-                            <input type="text" class="form-control" id="input2" placeholder="Ingrese texto">
+                            <input type="text" class="form-control" id="reformationPrice" placeholder="Ingrese texto">
                         </div>
                         <div class="mb-3">
                             <label for="input3" class="form-label">Gastos de gestoria</label>
-                            <input type="text" class="form-control" id="input3" placeholder="Ingrese texto">
+                            <input type="text" class="form-control" id="commissions" placeholder="Ingrese texto">
                         </div>
-                        <button type="button" class="btn btn-success" id="execute-btn">Ejecutar</button>
-                        <button type="reset" class="btn btn-danger" id="clear-btn">Limpiar</button>
-                    </form>
                 </div>
                 
                 <!-- Columna derecha -->
                 <div class="col-md-6">
-                    <form>
+                    
                         <div class="mb-3">
-                            <label for="range1" class="form-label">Monto a financiar</label>
+                            <label for="range1" class="form-label">Porcentaje a financiar</label>
                             <div class="d-flex align-items-center">
-                                <input type="range" class="form-range me-2" id="range1">
-                                <span>Monto</span>
+                                <input type="range" class="form-range me-2" id="mortgagePercentage">
+                                <span id="mortgagePercentageDetail"></span>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="range2" class="form-label">Porcentaje a financiar</label>
-                            <div class="d-flex align-items-center">
-                                <input type="range" class="form-range me-2" id="range2">
-                                <span>Porcentaje</span>
-                            </div>
+                            <label for="range2" class="form-label">Monto a financiar</label>
+                            <input type="text" class="form-control" id="mortgageAmount" placeholder="Ingrese porcentaje">
                         </div>
                         <div class="mb-3">
                             <label for="extra1" class="form-label">Tasa de interes anual</label>
-                            <input type="text" class="form-control" id="extra1" placeholder="Ingrese texto">
+                            <input type="text" class="form-control" id="rate" placeholder="Ingrese texto">
                         </div>
                         <div class="mb-3">
-                            <label for="selector" class="form-label">Modelo de inverisón</label>
-                            <select class="form-select" id="selector">
+                            <label for="selector" class="form-label">Modelo de inversión</label>
+                            <select class="form-select" id="businessModel">
                                 <option value="opcion1">Opción 1</option>
                                 <option value="opcion2">Opción 2</option>
                                 <option value="opcion3">Opción 3</option>
                             </select>
                         </div>
+                        <button type="button" class="btn btn-success" id="btn-calcular">Calcular</button>
+                        <button type="reset" class="btn btn-danger" id="clear-btn">Limpiar</button>
                     </form>
                 </div>
             </div>
         </div>
-    <script src="./scripts/modeloInteractivo_PrimerPreentrega.js"></script>
+    <!-- <script src="./scripts/modeloInteractivo_PrimerPreentrega.js"></script> -->
+        <script src="./scripts/DomEvents.js"></script>
 </body>
 </html>

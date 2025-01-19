@@ -463,3 +463,12 @@ let reportData = operation.generateReportData();
 
 console.log(reportData)
 report.getReport(reportData[0], reportData[1], reportData[2], reportData[3], reportData[4], reportData[5]);
+
+
+//Procesamiento principal del formulario
+let button = document.getElementById("btn-calcular");
+button.addEventListener("click", ProcesarOperacion)
+
+function ProcesarOperacion(){
+    console.log("PROCESAR OPERACIÓN")
+}
