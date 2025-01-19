@@ -28,6 +28,7 @@
                                 <option value="opcion2">Opción 2</option>
                                 <option value="opcion3">Opción 3</option>
                             </select>
+                            
                         </div>
                         <div class="mb-3">
                             <label for="input2" class="form-label">Gastos de reforma</label>
@@ -45,13 +46,21 @@
                         <div class="mb-3">
                             <label for="range1" class="form-label">Porcentaje a financiar</label>
                             <div class="d-flex align-items-center">
-                                <input type="range" class="form-range me-2" id="mortgagePercentage">
-                                <span id="mortgagePercentageDetail"></span>
+                                <input type="range" value="0" class="form-range me-2" id="mortgagePercentage">
+                                <span id="mortgagePercentageDetail">0%</span>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="range2" class="form-label">Monto a financiar</label>
                             <input type="text" class="form-control" id="mortgageAmount" placeholder="Ingrese porcentaje">
+                            
+                        </div>
+                        <div class="mb-3">
+                            <label for="range1" class="form-label">Tiempo de la hipoteca</label>
+                            <div class="d-flex align-items-center">
+                                <input type="range" max="30" step="1" value="0"class="form-range me-2" id="mortgageDuration">
+                                <span id="mortgageDurationDetail">0 años</span>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="extra1" class="form-label">Tasa de interes anual</label>
@@ -74,7 +83,7 @@
                             <input type="text" class="form-control rent" id="rent" placeholder="Ingrese monto">    
                         </div>
                     </div>  
-                        <button type="button" class="btn btn-info fade mt-3" id="new-rent-input-btn">Agregar habitación</button>
+                        <button type="button" class="btn btn-info fade mt-3 disabled" id="new-rent-input-btn">Agregar habitación</button>
 
                 </div>
 
@@ -87,6 +96,6 @@
             </div>
         </div>
     <!-- <script src="./scripts/modeloInteractivo_PrimerPreentrega.js"></script> -->
-        <script src="./scripts/DomEvents.js"></script>
+        <script src="./scripts/main.js"></script>
 </body>
 </html>
