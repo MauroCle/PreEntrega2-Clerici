@@ -11,7 +11,7 @@
 <body>
     <h1>Simulador de rentabilidad de inmuebles</h1>
     <h3>Primer pre-entrega</h3>
-    
+    <div class="errors alert alert-danger fade" id="errors-list"></div>    
         <div class="container mt-5">
             <div class="row">
                 <!-- Columna izquierda -->
@@ -65,10 +65,20 @@
                                 <option value="opcion3">Opción 3</option>
                             </select>
                         </div>
-                        <button type="button" class="btn btn-success" id="btn-calcular">Calcular</button>
-                        <button type="reset" class="btn btn-danger" id="clear-btn">Limpiar</button>
                     </form>
                 </div>
+                <div class="col-md-6">
+                    <div>
+                        <label for="extra1" class="form-label">Monto de alquiler</label>
+                        <input type="text" class="form-control" id="rent" placeholder="Ingrese texto">    
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-success" id="btn-calcular">Calcular</button>
+                    <button type="reset" class="btn btn-danger" id="clear-btn">Limpiar</button>
+                </div>
+                
+                        
             </div>
         </div>
     <!-- <script src="./scripts/modeloInteractivo_PrimerPreentrega.js"></script> -->
