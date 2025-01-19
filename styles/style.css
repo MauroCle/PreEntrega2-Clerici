@@ -2,9 +2,24 @@ body {
     font-family: Arial, sans-serif;
 
 }
-p{
+/* p{
     width: 35%;
     padding: 5px;
     border: 1px solid black
+} */
+
+#reportContainer {
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    margin-top: 20px;        
 }
+
+.alert {
+    border-radius: 15px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    width: 80%; 
+    max-width: 600px; 
+}
+
 

@@ -38,6 +38,22 @@
                             <label for="input3" class="form-label">Gastos de gestoria</label>
                             <input type="text" class="form-control" id="commissions" placeholder="Ingrese texto">
                         </div>
+                        <div class="col-md-6">
+                            <div class="mb-3" id="rent-container">
+                                <div class="mb-3">
+                                    <label for="extra1" id="rent-label" class="form-label rent-label">Valor del alquiler</label>
+                                    <input type="text" class="form-control rent" id="rent" placeholder="Ingrese monto">    
+                                </div>
+                            </div>  
+                                <button type="button" class="btn btn-info fade mt-3 disabled" id="new-rent-input-btn">Agregar habitación</button>
+        
+                        </div>
+        
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-success" id="btn-calcular">Calcular</button>
+                            <button type="reset" class="btn btn-danger" id="clear-btn">Limpiar</button>
+                        </div>
+                        
                 </div>
                 
                 <!-- Columna derecha -->
@@ -76,25 +92,12 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-6">
-                    <div class="mb-3" id="rent-container">
-                        <div class="mb-3">
-                            <label for="extra1" id="rent-label" class="form-label rent-label">Valor del alquiler</label>
-                            <input type="text" class="form-control rent" id="rent" placeholder="Ingrese monto">    
-                        </div>
-                    </div>  
-                        <button type="button" class="btn btn-info fade mt-3 disabled" id="new-rent-input-btn">Agregar habitación</button>
-
-                </div>
-
-                <div class="col-md-6">
-                    <button type="button" class="btn btn-success" id="btn-calcular">Calcular</button>
-                    <button type="reset" class="btn btn-danger" id="clear-btn">Limpiar</button>
-                </div>
                 
                         
             </div>
+        
         </div>
+        <div id="reportContainer"></div>
     <!-- <script src="./scripts/modeloInteractivo_PrimerPreentrega.js"></script> -->
         <script src="./scripts/main.js"></script>
 </body>
