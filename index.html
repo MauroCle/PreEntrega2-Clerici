@@ -68,11 +68,16 @@
                     </form>
                 </div>
                 <div class="col-md-6">
-                    <div>
-                        <label for="extra1" class="form-label">Monto de alquiler</label>
-                        <input type="text" class="form-control" id="rent" placeholder="Ingrese texto">    
-                    </div>
+                    <div class="mb-3" id="rent-container">
+                        <div class="mb-3">
+                            <label for="extra1" id="rent-label" class="form-label rent-label">Valor del alquiler</label>
+                            <input type="text" class="form-control rent" id="rent" placeholder="Ingrese monto">    
+                        </div>
+                    </div>  
+                        <button type="button" class="btn btn-info fade mt-3" id="new-rent-input-btn">Agregar habitación</button>
+
                 </div>
+
                 <div class="col-md-6">
                     <button type="button" class="btn btn-success" id="btn-calcular">Calcular</button>
                     <button type="reset" class="btn btn-danger" id="clear-btn">Limpiar</button>

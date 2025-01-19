@@ -38,6 +38,7 @@ function ProcesarOperacion(){
 function FormValidation(){
     let errors =[];
     let values = [];
+    let hasErrors = false;
 
     CleanFormError()
 
@@ -65,21 +66,25 @@ function FormValidation(){
     values.push(document.getElementById("businessModel").value)
     errors.push(BusinessModelValidation(values[6]))
 
-    values.push(document.getElementById("rent").value)
-    errors.push(PriceValidation(values[7],"valor de alquiler",true))
-    //TODO se va a necesitar una validación propia segun modelo de negocio, ya que cambiaria el Id
-
-    console.log(values);
-    console.log(errors);
-
+    //Busca a todos los valores de renta. De esta manera se adapta a los diferentes formatos de bussinesModel
+    document.querySelectorAll(".rent").forEach(item =>{
+        values.push(item.value)
+        errors.push(PriceValidation(values[values.length-1],"valor de alquiler",true))
+    })
+    
     errors.forEach(error =>{
         if(error!=null)
         {
             ShowFormError(error)
+            hasErrors=true;
         }
     })
 
-    //return(values);
+    if(hasErrors)
+        return null;
+    else
+        return values
+    
 }
 
 //Validación de datos
@@ -180,11 +185,6 @@ function LoadComunitiesSelector(){
 
 function LoadBussinessModelSelector(){
     
-    const businessModels = [
-        [1, "Alquiler tradicional"],
-        [2, "Alquiler por habitación"],
-        [3, "Reforma y venta"]
-    ];
 
     const businessModel = document.getElementById("businessModel")
     businessModel.innerHTML=""; //Limpio cualquier dato residuo hardcodeado en el HTML
@@ -230,3 +230,48 @@ function UpdateOnMortgageAmount(mortgageAmount,price){
 
 }
 
+
+//Manejo de inputs de habitaciones
+const selectedBusinessModel = document.getElementById("businessModel")
+const buttonNewRoom = document.getElementById("new-rent-input-btn")
+let roomsQuantity=1;
+
+selectedBusinessModel.addEventListener("change",()=>RentTypeControl(selectedBusinessModel.value))
+buttonNewRoom.addEventListener("click", ()=> AddNewRoom())
+
+
+function RentTypeControl(value){
+    
+    if(value==1){
+        document.getElementById("rent-label").textContent="Valor del alquiler"
+        buttonNewRoom.classList.remove("show")
+        DeleteAdditionalRooms()
+    }else if(value==2 && !buttonNewRoom.classList.contains("show")){
+        document.getElementById("rent-label").textContent="Valor de la habitación"
+        buttonNewRoom.classList.add("show")
+    }else if(value=3){
+        document.getElementById("rent-label").textContent="Valor de venta"
+        buttonNewRoom.classList.remove("show")
+        DeleteAdditionalRooms()
+    }
+}
+
+function AddNewRoom(){
+    const rentListContainer = document.getElementById("rent-container")
+    roomsQuantity++
+    rentListContainer.innerHTML += `
+    <div class="mb-3 added-rent">  
+        <label for="extra1" class="form-label rent-label added-rent">Valor de la habitación ${roomsQuantity}</label>
+        <input type="text" class="form-control rent added-rent" id="rent${roomsQuantity}" placeholder="Ingrese monto">    
+    </div>
+    `
+}
+
+function DeleteAdditionalRooms(){
+    const addedRooms=document.querySelectorAll(".added-rent")
+        
+    addedRooms.forEach(element =>{
+        element.remove()
+    })
+    roomsQuantity=1;
+}

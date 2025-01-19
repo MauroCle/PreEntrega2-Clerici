@@ -12,23 +12,6 @@ class Operation{
     this.sellPrice=sellPrice
     }
 
-    setPrice(){
-        let price = prompt("¡Hola! ¿Cual es el precio de compra el inmueble?")
-
-        // while(isNaN(price) || price <= 0) { //memo: isNaN me devuelve true si price no es un numero, falso si si lo es. Como las validaciones con try parse de C#
-            
-        //     if(!isNaN(price)) {
-        //         price = prompt("Debe ingresar un valor numerico para el precio de compra del inmueble.")
-        //         console.log("price is void or not a number")
-        //     }else{
-        //         price = prompt("Debe ingresar un precio de compra para el inmueble.")
-        //         console.log("price is negative number or 0")
-        //     }
-        // }
-
-    this.price = price
-    }
-
 //TODO: Convertir esto en una array const y recorrerlo en el prompt
     setCommunity(){
 
