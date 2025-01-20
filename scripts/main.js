@@ -287,7 +287,7 @@ let error = null
     // Valida que sea un numero mayor a cero y menor al maximo de la lista
     while (isNaN(businessModel) || businessModel <= 0 || businessModel > businessModels.length) { 
         console.log("Entrada no válida");
-        businessModel = prompt(`Debe ingresar un valor entre 1 y ${businessModels.length}`)
+        error= `Debe ingresar un valor entre 1 y ${businessModels.length}`
     }
 return error
 }
@@ -310,12 +310,13 @@ function ShowFormError(error){
 }
 
 //Carga los datos en los selectores
-LoadFormSelectors()
+LoadFormDefaults()
 
-function LoadFormSelectors(){
+function LoadFormDefaults(){
     
     LoadComunitiesSelector();
     LoadBussinessModelSelector();
+    LoadLastOperation();
 }
 
 function LoadComunitiesSelector(){
@@ -326,14 +327,11 @@ function LoadComunitiesSelector(){
     communities.forEach(community => {
         communitiesSelector.innerHTML += `<option value="${community[0]}">${community[1]} - ITP: ${(community[2]*100).toFixed(0)}% </option>`
     });
-    
-
 }
 
 
 function LoadBussinessModelSelector(){
     
-
     const businessModel = document.getElementById("businessModel")
     businessModel.innerHTML=""; //Limpio cualquier dato residuo hardcodeado en el HTML
 
@@ -342,6 +340,52 @@ function LoadBussinessModelSelector(){
     });
 }
 
+function LoadLastOperation(){
+
+    //Recupero la información del storage y lo parseo para crear los objetos correspondientes
+    const lastOperation = localStorage.getItem("lastOperation")
+    const retrievedJSONOperation = JSON.parse(lastOperation)
+    
+    let retrieveOperation = new Operation(
+        price =Number(retrievedJSONOperation.price),
+        mortgage= new Mortgage(
+            basePrice=Number(retrievedJSONOperation.mortgage.basePrice),
+            FinancingAmount = Number(retrievedJSONOperation.mortgage.FinancingAmount),
+            rate= Number(retrievedJSONOperation.mortgage.rate),
+            duration= Number(retrievedJSONOperation.mortgage.duration),
+        ),
+        community=Number(retrievedJSONOperation.community),
+        communityITP=Number(retrievedJSONOperation.communityITP),
+        reformationPrice=Number(retrievedJSONOperation.reformationPrice),
+        commissions=Number(retrievedJSONOperation.commissions),
+        businessModel=Number(retrievedJSONOperation.businessModel),
+        rent=Number(retrievedJSONOperation.rent),
+    )
+debugger
+    document.getElementById("buyPrice").value = retrieveOperation.price
+    
+    document.getElementById("communities").value = retrieveOperation.community
+    
+    document.getElementById("reformationPrice").value = retrieveOperation.reformationPrice
+    
+    document.getElementById("commissions").value = retrieveOperation.commissions
+    
+    document.getElementById("mortgageAmount").value = retrieveOperation.mortgage.FinancingAmount
+
+    //Actualiza el slider
+    UpdateOnMortgageAmount(retrieveOperation.mortgage.FinancingAmount,retrieveOperation.price)
+    
+    document.getElementById("rate").value = retrieveOperation.mortgage.rate
+    
+    document.getElementById("businessModel").value = retrieveOperation.businessModel
+    
+    document.getElementById("mortgageDuration").value = retrieveOperation.mortgage.duration
+
+    document.getElementById("rent").value = retrieveOperation.rent
+
+    // UpdateOnMortgageAmount(retrieveOperation.FinancingAmount,retrieveOperation.price)
+
+}
 
 //Eventos de sincronización de rangos y montos de financiacion
 //SynchronizeFinancing(document.getElementById("buyPrice".value)) //la llamada de elementebyid buyprce es temporal
@@ -442,6 +486,17 @@ function DeleteAdditionalRooms(){
     roomsQuantity=1;
 }
 
+//Guardo la ultima operacion valida en el storage
+function SaveLastOperation(operation){
+
+    //Primero limpio el storage por si ya hay una guardada anterior
+    localStorage.removeItem("lastOperation")
+
+    //Creo el JSON y lo almaceno
+    const lastOperation = JSON.stringify(operation)
+    localStorage.setItem("lastOperation", lastOperation)
+}
+
 
 function ProcesarOperacion(){
     let formData= FormValidation();
@@ -473,6 +528,8 @@ function ProcesarOperacion(){
         
         const report = new ResultsReport()
         report.getReport(reportData[0], reportData[1], reportData[2], reportData[3], reportData[4], reportData[5]);
+
+        SaveLastOperation(operation)
 
         console.log(formData)
     }
