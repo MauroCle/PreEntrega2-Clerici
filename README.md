@@ -1,4 +1,4 @@
-# PreEntrega1-Clerici
+# PreEntrega3-Clerici
 <small>Primer entrega para el curso de Javascript de Coderhouse.</small>
 
 
