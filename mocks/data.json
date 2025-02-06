@@ -1,0 +1,73 @@
+[
+    {
+      "price": 100000,
+      "businessModel": "venta",
+      "commissions": 1200,
+      "rent": 8120,
+      "profitability": 8
+    },
+    {
+      "price": 150000,
+      "businessModel": "habitaciones",
+      "commissions": 2500,
+      "rent": 1627,
+      "profitability": 13
+    },
+    {
+      "price": 85000,
+      "businessModel": "tradicional",
+      "commissions": 900,
+      "rent": 506,
+      "profitability": 7
+    },
+    {
+      "price": 200000,
+      "businessModel": "venta",
+      "commissions": 3000,
+      "rent": 18360,
+      "profitability": 9
+    },
+    {
+      "price": 50000,
+      "businessModel": "habitaciones",
+      "commissions": 1100,
+      "rent": 341,
+      "profitability": 8
+    },
+    {
+      "price": 120000,
+      "businessModel": "tradicional",
+      "commissions": 1800,
+      "rent": 762,
+      "profitability": 7.5
+    },
+    {
+      "price": 180000,
+      "businessModel": "venta",
+      "commissions": 2900,
+      "rent": 16061,
+      "profitability": 8.8
+    },
+    {
+      "price": 220000,
+      "businessModel": "habitaciones",
+      "commissions": 3200,
+      "rent": 2065,
+      "profitability": 11.2
+    },
+    {
+      "price": 65000,
+      "businessModel": "tradicional",
+      "commissions": 800,
+      "rent": 381,
+      "profitability": 6.9
+    },
+    {
+      "price": 145000,
+      "businessModel": "venta",
+      "commissions": 2100,
+      "rent": 17742,
+      "profitability": 12.1
+    }
+  ]
+  

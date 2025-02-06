@@ -1,3 +1,5 @@
+// import Swal from 'sweetalert2'
+
 class Operation{
     constructor(price, mortgage,community,communityITP,reformationPrice,commissions,businessModel,rent){
     this.price =price
@@ -37,33 +39,33 @@ class Operation{
     }
 
     generateReportDataRooms(){
-   
+        debugger
         console.log(this.rent)
         let grossReturn= (this.rent*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))
-        let taxes = (this.rent*0.3) //TODO 30% = aproximación a groso modo. En proximas entregas se va a trabajar mas fino en esta parte.
+        let taxes = (this.rent*0.3) 
         let netReturn=((this.rent - taxes)*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))
-        let finalPrice =((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions)) 
-        let cashflow =(this.rent - taxes)
+        let finalPrice = (Number(this.price) + (Number(this.mortgage.basePrice) * Number(this.communityITP)) + Number(this.reformationPrice) + Number(this.commissions))
+        let cashflow =(this.rent - taxes - Number(this.mortgage.DefineMensualPaymentAmount()))
 
         return [grossReturn,netReturn,taxes,finalPrice,cashflow, this.businessModel]
     }
 
     generateReportDataTraditional(){
-  
+        
         let grossReturn= (this.rent*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions)) // memo: Number(variable) le defino que lo que estoy operando es si o si un numero. Sin esto los numeros se me rompen.
-        let taxes = (this.rent*0.3) //TODO 30% = aproximación a groso modo. En proximas entregas se va a trabajar mas fino en esta parte.
+        let taxes = (this.rent*0.3) 
         let netReturn=((this.rent - taxes)*12)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))
-        let finalPrice =((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions)) 
-        let cashflow =(this.rent - taxes)
+        let finalPrice = (Number(this.price) + (Number(this.mortgage.basePrice) * Number(this.communityITP)) + Number(this.reformationPrice) + Number(this.commissions))
+        let cashflow =(this.rent - taxes - Number(this.mortgage.DefineMensualPaymentAmount()))
 
         return [grossReturn,netReturn,taxes,finalPrice,cashflow, this.businessModel]
     }
     generateReportDataSell(){
-  
+        
         let grossReturn= (this.rent)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))-1
-        let taxes = (this.rent*0.15) //15% = aproximación a groso modo. En proximas entregas se va a trabajar mas fino en esta parte.
+        let taxes = (this.rent*0.15) 
         let netReturn=(this.rent - taxes)/((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions))-1
-        let finalPrice =((this.price*(1+this.communityITP))+Number(this.reformationPrice)+Number(this.commissions)).toFixed(2)
+        let finalPrice = (Number(this.price) + (Number(this.mortgage.basePrice) * Number(this.communityITP)) + Number(this.reformationPrice) + Number(this.commissions)).toFixed(2)
 
         return [grossReturn,netReturn,taxes,finalPrice,0, this.businessModel]
     }
@@ -76,19 +78,19 @@ class Operation{
 }
 
 class Mortgage{
-    constructor(basePrice,FinancingAmount,rate,duration,mensualRate) {
+    constructor(basePrice,FinancingAmount,rate,duration,mensualRate,mensualPaymentAmount) {
         this.basePrice= basePrice,
         this.FinancingAmount = FinancingAmount,
         this.rate= rate,
-        this.duration= duration
-        this.mensualRate = this.DefineMensualRate(this.rate)
+        this.duration= duration,
+        this.mensualRate = this.DefineMensualRate(this.rate),
+        this.mensualPaymentAmount= this.DefineMensualPaymentAmount()
     }
 
     DefineMensualRate(rate){
         this.mensualRate = rate/12
     }
-    
-    DefineTotalCost() {
+    DefineMensualPaymentAmount(){
         // Q total de pagos
         let paymentsQuantity = this.duration * 12;
 
@@ -96,11 +98,23 @@ class Mortgage{
         let mensualRate = this.mensualRate/100
 
         // calculo del pago mensual nominal
-        let mensualPaymentAmount = this.basePrice * (mensualRate * Math.pow(1 + mensualRate, paymentsQuantity))/
-                                            (Math.pow(1 + mensualRate, paymentsQuantity) - 1);
+        this.mensualPaymentAmount= this.FinancingAmount * (mensualRate * Math.pow(1 + mensualRate, paymentsQuantity))/
+                                                  (Math.pow(1 + mensualRate, paymentsQuantity) - 1);
+        return this.mensualPaymentAmount
+    }
     
+    DefineTotalCost() {
         
-        let totalCost = mensualPaymentAmount * paymentsQuantity;
+        // Q total de pagos
+        let paymentsQuantity = this.duration * 12;
+
+        //Calculamos la tasa mensual en formato 0.01 = 1%
+        let mensualRate = this.mensualRate/100
+
+        // calculo del pago mensual nominal
+        let mensualPaymentAmount = this.DefineMensualPaymentAmount()
+        
+        let totalCost = mensualPaymentAmount * paymentsQuantity + (this.basePrice-this.FinancingAmount);
     
         return totalCost.toFixed(2); 
     }
@@ -317,6 +331,7 @@ function LoadFormDefaults(){
     LoadComunitiesSelector();
     LoadBussinessModelSelector();
     LoadLastOperation();
+    LoadOperationsHistory();
 }
 
 function LoadComunitiesSelector(){
@@ -361,7 +376,7 @@ function LoadLastOperation(){
         businessModel=Number(retrievedJSONOperation.businessModel),
         rent=Number(retrievedJSONOperation.rent),
     )
-debugger
+
     document.getElementById("buyPrice").value = retrieveOperation.price
     
     document.getElementById("communities").value = retrieveOperation.community
@@ -497,11 +512,69 @@ function SaveLastOperation(operation){
     localStorage.setItem("lastOperation", lastOperation)
 }
 
+// Se queda afuera, aparentemente hay algun problema con live server y el guardado local de info en json
+// function SaveJsonOperation(operation) {
+//     fetch('./mocks/data.json', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(operation)
+//     })
+//     .then(response => response.json())
+//     .then(data => console.log("Operación guardada:", data))
+//     .catch(error => console.error("Error al guardar la operación:", error));
+// }
+
+async function LoadOperationsHistory() {
+    try {
+        const response = await fetch('./mocks/data.json');
+        const data = await response.json();
+
+        let container = document.getElementById('operations-result');
+        container.innerHTML = ''; //Limpio el contenido previo (no deberia hbaer ninguno de todas formas)
+        
+        let row = document.createElement('div');
+        row.className = 'row';
+
+        data.forEach((operation, index) => {
+            let col = document.createElement('div');
+            col.className = 'col-md-4 mb-4'; //3 columnas por fila
+
+            col.innerHTML = `
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Operación ${index + 1}</h5>
+                        <p><strong>Precio:</strong> ${operation.price}</p>
+                        <p><strong>Modelo de Negocio:</strong> ${operation.businessModel}</p>
+                        <p><strong>Comisiones:</strong> ${operation.commissions}</p>
+                        <p><strong>Renta Total:</strong> ${operation.rent}</p>
+                        <p><strong>Rentabilidad:</strong> ${operation.profitability}%</p>
+                    </div>
+                </div>
+            `;
+            
+            row.appendChild(col);
+        });
+
+        container.appendChild(row); //Agrego fila con las tarjetas al contenedor
+    } catch (error) {
+        console.error("Error al cargar operaciones:", error);
+    }
+}
+
 
 function ProcesarOperacion(){
     let formData= FormValidation();
     if(formData!=null)
     {
+        Swal.fire({
+            title:'OK!',
+            text:'Operación procesada con exito.',
+            icon:'success',
+            confirmButtonText:'Cerrar',
+            timer:1700
+        })
 
         const mortgage = new Mortgage(
         
@@ -513,7 +586,7 @@ function ProcesarOperacion(){
         mortgage.DefineMensualRate(formData[5])
 
         const operation = new Operation(
-            price = formData[0],
+            price = mortgage.DefineTotalCost(),
             this.mortgage=mortgage,
             community = formData[1],
             communityITP = GetComunityITP(formData[1]),
@@ -529,7 +602,9 @@ function ProcesarOperacion(){
         const report = new ResultsReport()
         report.getReport(reportData[0], reportData[1], reportData[2], reportData[3], reportData[4], reportData[5]);
 
+        operation.price= formData[0]
         SaveLastOperation(operation)
+  
 
         console.log(formData)
     }
